@@ -10,6 +10,7 @@ if [ $# -eq 2 ]
     THREAD_COUNT=$3
 fi
 echo 0 > syncedCount.txt
+mkdir standardOutput &> /dev/null
 echo ""
 echo "Spawning "$THREAD_COUNT" Threads"
 echo ""
@@ -18,7 +19,7 @@ do
 	./thread.sh $i $EXEC $DATA_FILE&
 done
 wait 
-rm file.txt
+rm syncedCount.txt
 echo ''
 echo 'Reducing all standard output to one file'
 cat standardOutput/* > allStandardOutput.txt
