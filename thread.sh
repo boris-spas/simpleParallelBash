@@ -1,19 +1,29 @@
 #!/bin/bash
 #usage ./thread threadId limit
-COUNTER='file.txt'
+
+TMP_OS=`uname | tr "[:upper:]" "[:lower:]"`
+if [[ "{$TMP_OS}" = *darwin* ]]; then
+    LOCK='lockfile lock.lock'
+    UNLOCK='rm -f lock.lock'
+elif [[ "{$TMP_OS}" = *linux* ]]; then
+    LOCK='lockfile-create lock'
+    UNLOCK='lockfile-remove lock'
+fi
+
 ID=$1
 EXEC=$2
 DATA_FILE=$3
 LIMIT=`awk 'END{print NR}' $DATA_FILE`
+COUNTER='syncedCount.txt'
 while :
 do
-  lockfile-create lock
+  $LOCK
   index=`cat $COUNTER`
   echo "Thread $1 sais: old index value: "$index
   index=$(($index+1))
   echo "Thread $ID sais: new index value: "$index
   echo $index > $COUNTER
-  lockfile-remove lock 
+  $UNLOCK
   if [ "$index" -lt "$LIMIT" ]; then
 	WORK_LOAD=`sed -n \`echo $index\`p < $DATA_FILE`
 	echo "Thread $ID sais: working on "$WORK_LOAD

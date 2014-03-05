@@ -9,7 +9,7 @@ if [ $# -eq 2 ]
     DATA_FILE=$2
     THREAD_COUNT=$3
 fi
-echo 0 > file.txt
+echo 0 > syncedCount.txt
 echo ""
 echo "Spawning "$THREAD_COUNT" Threads"
 echo ""
