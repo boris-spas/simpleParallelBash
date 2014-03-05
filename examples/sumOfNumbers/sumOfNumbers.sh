@@ -7,4 +7,4 @@ do
 	let SUM=SUM+COUNTER
 	let COUNTER=COUNTER+1 
 done
-echo "The sum of the first $NUM numbers is $SUM'
+echo "The sum of the first $NUM numbers is $SUM"
