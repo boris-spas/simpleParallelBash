@@ -36,14 +36,14 @@ while :
 do
   $LOCK
   index=`cat $COUNTER`
-  echo "Thread $1 sais: old index value: "$index
+  echo "Thread $1 says: old index value: "$index
   index=$(($index+1))
-  echo "Thread $ID sais: new index value: "$index
+  echo "Thread $ID says: new index value: "$index
   echo $index > $COUNTER
   $UNLOCK
   if [ "$index" -le "$LIMIT" ]; then
 	WORK_LOAD=`sed -n \`echo $index\`p < $DATA_FILE`
-	echo "Thread $ID sais: working on "$WORK_LOAD
+	echo "Thread $ID says: working on "$WORK_LOAD
         echo ""
 	sh $EXEC $WORK_LOAD > "../standardOutput/$WORK_LOAD.txt" 2>&1
   else
