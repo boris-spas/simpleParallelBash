@@ -45,7 +45,7 @@ do
 	WORK_LOAD=`sed -n \`echo $index\`p < $DATA_FILE`
 	echo "Thread $ID sais: working on "$WORK_LOAD
         echo ""
-	sh $EXEC $WORK_LOAD > "../standardOutput/$WORK_LOAD.txt"
+	sh $EXEC $WORK_LOAD > "../standardOutput/$WORK_LOAD.txt" 2>&1
   else
 	echo "Thread $ID done, no more work"
 	echo ""
