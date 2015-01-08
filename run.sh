@@ -1,14 +1,9 @@
 #!/bin/bash
-if [ $# -eq 2 ]
-  then
-    EXEC=$1
-    DATA_FILE=$2
-    THREAD_COUNT=1
-  else
-    EXEC=$1
-    DATA_FILE=$2
-    THREAD_COUNT=$3
-fi
+
+EXEC=$1
+DATA_FILE=$2
+THREAD_COUNT=$3
+
 echo 0 > syncedCount.txt
 mkdir standardOutput &> /dev/null
 echo ""
@@ -16,7 +11,8 @@ echo "Spawning "$THREAD_COUNT" Threads"
 echo ""
 for i in $(seq 1 $THREAD_COUNT)
 do
-	./thread.sh $i $EXEC $DATA_FILE&
+	echo "${@:4}"
+	./thread.sh $i $EXEC $DATA_FILE "${@:4}" & 
 done
 wait 
 rm syncedCount.txt
