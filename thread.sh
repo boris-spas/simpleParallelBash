@@ -32,7 +32,7 @@ LIMIT=`awk 'END{print NR}' $DATA_FILE`
 COUNTER='../syncedCount.txt'
 mkdir $1
 for arg in "${@:4}" ; do
-	cp $arg $1
+	cp -rf $arg $1
 done
 cd $1
 
