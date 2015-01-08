@@ -11,7 +11,6 @@ echo "Spawning "$THREAD_COUNT" Threads"
 echo ""
 for i in $(seq 1 $THREAD_COUNT)
 do
-	echo "${@:4}"
 	./thread.sh $i $EXEC $DATA_FILE "${@:4}" & 
 done
 wait 
