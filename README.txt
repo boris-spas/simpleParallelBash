@@ -1,4 +1,4 @@
-Run a bash processes in parallel by running
+Execute a bash script multiple times with different input in parallel by running
 
 ./run.sh /path/to/script.sh /path/to/input.txt <noOfThreads>
 
