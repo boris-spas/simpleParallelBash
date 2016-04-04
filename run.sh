@@ -7,13 +7,13 @@ THREAD_COUNT=$3
 echo 0 > syncedCount.txt
 mkdir standardOutput &> /dev/null
 echo ""
-echo "Spawning "$THREAD_COUNT" Threads"
+echo "Spawning ""$THREAD_COUNT"" Threads"
 echo ""
-for i in $(seq 1 $THREAD_COUNT)
+for i in $(seq 1 "$THREAD_COUNT")
 do
-	./thread.sh $i $EXEC $DATA_FILE "${@:4}" & 
+	./thread.sh "$i" "$EXEC" "$DATA_FILE" "${@:4}" &
 done
-wait 
+wait
 rm syncedCount.txt
 echo ''
 echo 'Reducing all standard output to one file'

@@ -1,7 +1,7 @@
 #!/bin/bash
 #usage ./thread threadId limit
 
-TMP_OS=`uname | tr "[:upper:]" "[:lower:]"`
+TMP_OS=$(uname | tr "[:upper:]" "[:lower:]")
 if [[ "{$TMP_OS}" = *darwin* ]]; then
     LOCK='lockfile ../lock.lock'
     UNLOCK='rm -f ../lock.lock'
@@ -17,7 +17,7 @@ then
    EXEC=$2
 else
    : # Relative path
-   EXEC=`pwd`/$2
+   EXEC=$(pwd)/$2
 fi
 
 if [[ "$3" = /* ]]
@@ -26,35 +26,35 @@ then
    DATA_FILE=$3
 else
    : # Relative path
-   DATA_FILE=`pwd`/$3
+   DATA_FILE=$(pwd)/$3
 fi
-LIMIT=`awk 'END{print NR}' $DATA_FILE`
+LIMIT=$(awk 'END{print NR}' "$DATA_FILE")
 COUNTER='../syncedCount.txt'
-mkdir $1
+mkdir "$1"
 for arg in "${@:4}" ; do
-	cp -rf $arg $1
+	cp -rf "$arg" "$1"
 done
-cd $1
+cd "$1" || exit
 
 while :
 do
   $LOCK
-  index=`cat $COUNTER`
-  echo "Thread $1 says: old index value: "$index
-  index=$(($index+1))
-  echo "Thread $ID says: new index value: "$index
-  echo $index > $COUNTER
+  index=$(cat $COUNTER)
+  echo "Thread $1 says: old index value: ""$index"
+  index=$((index+1))
+  echo "Thread $ID says: new index value: ""$index"
+  echo "$index" > "$COUNTER"
   $UNLOCK
   if [ "$index" -le "$LIMIT" ]; then
-	WORK_LOAD=`sed -n \`echo $index\`p < $DATA_FILE`
-	echo "Thread $ID says: working on "$WORK_LOAD
+	WORK_LOAD=$(sed -n "$index"p < "$DATA_FILE")
+	echo "Thread $ID says: working on " "$WORK_LOAD"
         echo ""
-	sh $EXEC $WORK_LOAD > "../standardOutput/$WORK_LOAD.txt" 2>&1
+	sh "$EXEC" "$WORK_LOAD" > "../standardOutput/$WORK_LOAD.txt" 2>&1
   else
 	echo "Thread $ID done, no more work"
 	echo ""
 	cd ..
-	rm -rf $1
+	rm -rf "$1"
 	exit
   fi
 done
